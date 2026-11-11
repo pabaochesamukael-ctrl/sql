@@ -1,0 +1,72 @@
+use Chinook_AutoIncrement
+go
+
+select * from invoice
+--01
+select FirstName, LastName, City, Country
+from Customer
+where Country ='Portugal' or Country = 'Spain'
+
+--02
+select c.FirstName, e.FirstName
+from customer as c
+inner join Employee as e
+on e.EmployeeId = c.SupportRepId
+where c.Country ='portugal' or c.Country ='Spain'
+
+--03
+select InvoiceId, InvoiceDate, total
+from invoice
+where InvoiceDate >= '20240201' and InvoiceDate < '20240301'
+order by invoiceDate;
+
+--04
+select InvoiceId, InvoiceDate, total
+from invoice
+where InvoiceDate >= '20240201' and InvoiceDate < '20240301' and total > 5
+order by invoiceDate;
+
+--05
+select t.trackId, t.Name, g.name
+from track as t
+inner join genre as g
+on t.genreId = g.genreId
+where g.Name = 'Bossa Nova'
+
+--06
+select count(*) as faixas
+from track as t
+inner join genre as g
+on t.GenreId = g.GenreId
+where g.Name ='Bossa Nova' and t.Name like 'Samba%'
+
+--07
+--a
+select * from Playlist
+insert into Playlist(Name)
+output inserted.playlistId
+values ('Bossa Nova da Turma C')
+
+--b
+insert into PlaylistTrack(PlaylistId, TrackId)
+values (19, 650), (19,656)
+
+--c
+select p.PlaylistId, t.trackId, t.Name
+from PlaylistTrack as p
+inner join Track as t
+on p.TrackId = t.TrackId
+where PlaylistId = 19
+
+--8
+delete from PlaylistTrack
+where PlaylistId = 19
+
+delete from Playlist
+where name = 'Bossa Nova da Turma C'
+
+select p.PlaylistId, t.trackId, t.Name
+from PlaylistTrack as p
+inner join Track as t
+on p.TrackId = t.TrackId
+where PlaylistId = 19
